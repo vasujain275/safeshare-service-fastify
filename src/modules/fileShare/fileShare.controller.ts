@@ -1,6 +1,6 @@
 import { FastifyRequest, FastifyReply } from "fastify";
 import crypto from "crypto";
-import * as sodium from "libsodium-wrappers";
+import sodium from "libsodium-wrappers";
 import { redis } from "../../server.js";
 import {
   generateSessionId,

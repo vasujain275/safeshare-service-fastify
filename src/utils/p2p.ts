@@ -1,4 +1,4 @@
-import parseTorrent from "parse-torrent";
+import * as parseTorrent from "parse-torrent";
 import crypto from "crypto";
 import type { TorrentInfo } from "./types.js";
 
