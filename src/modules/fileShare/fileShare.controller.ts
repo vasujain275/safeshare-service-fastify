@@ -1,10 +1,13 @@
 import { FastifyRequest, FastifyReply } from "fastify";
 import crypto from "crypto";
 import * as sodium from "libsodium-wrappers";
-import { redis } from "../../server";
-import { generateSessionId, createTorrentInfoHash } from "../../utils/identity";
-import { PeerSession } from "../../utils/types";
-import { FILE_EXPIRY_SECONDS, FRONTEND_URL } from "../../utils/constants";
+import { redis } from "../../server.js";
+import {
+  generateSessionId,
+  createTorrentInfoHash,
+} from "../../utils/identity.js";
+import { PeerSession } from "../../utils/types.js";
+import { FILE_EXPIRY_SECONDS, FRONTEND_URL } from "../../utils/constants.js";
 import {
   InitiateShareInput,
   UpdateTorrentInput,
@@ -14,7 +17,7 @@ import {
   SessionInfoResponse,
   UpdateStatusResponse,
   ErrorResponse,
-} from "./fileShare.schema";
+} from "./fileShare.schema.js";
 
 export async function initiateShareHandler(
   request: FastifyRequest<{

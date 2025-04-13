@@ -1,8 +1,13 @@
+import { fileURLToPath } from "url";
+import { dirname, join } from "path";
 import { config } from "dotenv";
-import path from "path";
 
-// Load environment variables
-config({ path: path.join(__dirname, "..", "..", ".env") });
+// Get current file path in ESM
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+// Load environment variables with the correct path
+config({ path: join(__dirname, "..", "..", ".env") });
 
 export const PORT = parseInt(process.env.PORT || "8000");
 export const REDIS_HOST = process.env.REDIS_HOST || "localhost";

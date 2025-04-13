@@ -1,22 +1,18 @@
-import Fastify, {
-  FastifyInstance,
-  FastifyReply,
-  FastifyRequest,
-} from "fastify";
+import Fastify from "fastify";
 import fastifySwagger from "@fastify/swagger";
 import fastifySwaggerUi from "@fastify/swagger-ui";
 import fastifyWebsocket from "@fastify/websocket";
 import cors from "@fastify/cors";
-import Redis from "ioredis";
+import { Redis } from "ioredis";
 import WebTorrent from "webtorrent";
-import { fileShareRoutes } from "./modules/fileShare/fileShare.route";
-import { fileShareSchemas } from "./modules/fileShare/fileShare.schema";
+import { fileShareRoutes } from "./modules/fileShare/fileShare.route.js";
+import { fileShareSchemas } from "./modules/fileShare/fileShare.schema.js";
 import {
   REDIS_HOST,
   REDIS_PORT,
   REDIS_PASSWORD,
   FRONTEND_URL,
-} from "./utils/constants";
+} from "./utils/constants.js";
 
 // Initialize Redis client
 export const redis = new Redis({

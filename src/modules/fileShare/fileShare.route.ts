@@ -5,8 +5,8 @@ import {
   getSessionInfoHandler,
   updateStatusHandler,
   handleWebSocketConnection,
-} from "./fileShare.controller";
-import { $ref } from "./fileShare.schema";
+} from "./fileShare.controller.js";
+import { $ref } from "./fileShare.schema.js";
 
 export async function fileShareRoutes(server: FastifyInstance) {
   // Route to initiate file sharing

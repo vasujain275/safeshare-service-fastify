@@ -1,5 +1,5 @@
 import WebTorrent from "webtorrent";
-import { TorrentInfo } from "./types";
+import { TorrentInfo } from "./types.js";
 
 /**
  * Create a WebTorrent client instance

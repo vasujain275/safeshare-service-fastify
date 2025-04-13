@@ -1,5 +1,5 @@
-import { buildServer } from "./server";
-import { PORT } from "./utils/constants";
+import { buildServer } from "./server.js";
+import { PORT } from "./utils/constants.js";
 
 export const server = buildServer();
 

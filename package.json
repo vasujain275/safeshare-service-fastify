@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Decentralized P2P End-to-End Encrypted Zero Knowledge File Sharing Platform",
   "main": "app.ts",
+  "type": "module",
   "scripts": {
     "build": "rimraf dist && tsc",
     "prestart": "npm run build",
