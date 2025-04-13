@@ -6,6 +6,7 @@ import {
   generateSessionId,
   createTorrentInfoHash,
 } from "../../utils/identity.js";
+import { generateInfoHash, createMagnetUri } from "../../utils/p2p.js";
 import { PeerSession } from "../../utils/types.js";
 import { FILE_EXPIRY_SECONDS, FRONTEND_URL } from "../../utils/constants.js";
 import {
@@ -43,19 +44,31 @@ export async function initiateShareHandler(
   const publicKeyHex = Buffer.from(keyPair.publicKey).toString("hex");
   const privateKeyHex = Buffer.from(keyPair.privateKey).toString("hex");
 
-  // Generate a torrent info hash placeholder
-  const torrentInfoHash = createTorrentInfoHash(sessionId, fileMetadata.name);
+  // Generate a torrent info hash
+  const torrentInfoHash = generateInfoHash({
+    name: fileMetadata.name,
+    size: fileMetadata.size,
+    sessionId,
+  });
 
-  // Store session information with 24-hour TTL
+  // Create magnet URI
+  const magnetUri = createMagnetUri(
+    torrentInfoHash,
+    fileMetadata.name,
+    fileMetadata.size,
+  );
+
+  // Store session information with TTL
   const sessionInfo: PeerSession = {
     sessionId,
     publicKey: publicKeyHex,
     privateKey: privateKeyHex,
     torrentInfoHash,
+    magnetUri,
     fileMetadata,
     status: "initiated",
     createdAt: Date.now(),
-    expiresAt: Date.now() + FILE_EXPIRY_SECONDS * 1000, // 24 hours
+    expiresAt: Date.now() + FILE_EXPIRY_SECONDS * 1000,
   };
 
   await redis.set(

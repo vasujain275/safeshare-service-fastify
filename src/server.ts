@@ -4,7 +4,6 @@ import fastifySwaggerUi from "@fastify/swagger-ui";
 import fastifyWebsocket from "@fastify/websocket";
 import cors from "@fastify/cors";
 import { Redis } from "ioredis";
-import WebTorrent from "webtorrent";
 import { fileShareRoutes } from "./modules/fileShare/fileShare.route.js";
 import { fileShareSchemas } from "./modules/fileShare/fileShare.schema.js";
 import {
@@ -20,9 +19,6 @@ export const redis = new Redis({
   port: REDIS_PORT,
   password: REDIS_PASSWORD,
 });
-
-// Initialize WebTorrent client
-export const webTorrentClient = new WebTorrent();
 
 export function buildServer() {
   const server = Fastify({
