@@ -1,6 +1,6 @@
 import { FastifyRequest, FastifyReply } from "fastify";
 import crypto from "crypto";
-import sodium from "libsodium-wrappers";
+import * as sodium from "libsodium-wrappers";
 import { redis } from "../../server";
 import { generateSessionId, createTorrentInfoHash } from "../../utils/identity";
 import { PeerSession } from "../../utils/types";
@@ -13,6 +13,7 @@ import {
   UpdateTorrentResponse,
   SessionInfoResponse,
   UpdateStatusResponse,
+  ErrorResponse,
 } from "./fileShare.schema";
 
 export async function initiateShareHandler(
@@ -34,8 +35,8 @@ export async function initiateShareHandler(
     .slice(0, 8);
   const sessionId = generateSessionId(browserInfo, ipHash);
 
-  // Generate encryption keys for this session
-  const keyPair = sodium.crypto.box_keypair();
+  // Generate encryption keys for this session using sodium
+  const keyPair = sodium.crypto_box_keypair();
   const publicKeyHex = Buffer.from(keyPair.publicKey).toString("hex");
   const privateKeyHex = Buffer.from(keyPair.privateKey).toString("hex");
 
@@ -134,7 +135,12 @@ export async function getSessionInfoHandler(
 }
 
 export async function handleWebSocketConnection(
-  connection: any,
+  connection: {
+    socket: {
+      send: (data: string) => void;
+      on: (event: string, callback: () => void) => void;
+    };
+  },
   request: FastifyRequest<{
     Params: { sessionId: string };
   }>,

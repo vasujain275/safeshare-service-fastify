@@ -5,6 +5,7 @@ import Fastify, {
 } from "fastify";
 import fastifySwagger from "@fastify/swagger";
 import fastifySwaggerUi from "@fastify/swagger-ui";
+import fastifyWebsocket from "@fastify/websocket";
 import cors from "@fastify/cors";
 import Redis from "ioredis";
 import WebTorrent from "webtorrent";
@@ -76,6 +77,9 @@ export function buildServer() {
     },
   });
 
+  // Register WebSocket plugin
+  server.register(fastifyWebsocket);
+
   // Add schemas
   for (const schema of [...fileShareSchemas]) {
     server.addSchema(schema);
@@ -83,9 +87,6 @@ export function buildServer() {
 
   // Register health check route
   server.get("/v1/healthcheck", async () => ({ status: "ok" }));
-
-  // Register websocket plugin
-  server.register(require("@fastify/websocket"));
 
   // Register routes
   server.register(fileShareRoutes, { prefix: "v1/share" });
